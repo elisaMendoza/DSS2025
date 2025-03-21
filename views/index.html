@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola Mami</title>
+</head>
+<script>
+    fetch('http://localhost:3000/sara')
+    .then(response => response.text()
+    .then(data => {
+        console.log(data);
+    }))
+</script>
+<body>
+    <p>Hola Bella!</p>
+    <form action="/mostrar" method="post">
+        <label for="input1">Input 1:</label>
+        <input type="text" id="input1" name="input1" required>
+        <br>
+        <label for="input2">Input 2:</label>
+        <input type="text" id="input2" name="input2" required>
+        <br>
+        <label for="input3">Input 3:</label>
+        <input type="text" id="input3" name="input3" required>
+        <br>
+        <label for="input4">Input 4:</label>
+        <input type="text" id="input4" name="input4" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
