@@ -34,13 +34,41 @@ app.post('/showrequestpost', ( request, response )=> {
 });
 app.post('/mostrar', ( request, response )=> {
     return response.render('mostrar.html', {
-        locals: {
-            input1: request.body.input1,
-        }
+        locals: {data: {
+            input1: detectar(request.body.input1),
+            input2: detectar(request.body.input2),
+            input3: detectar(request.body.input3),
+            input4: detectar(request.body.input4),
+        }}
     })
 });
-app.post('/mostrar', ( request, response )=> {
-    return response.render('mostrar.html', {
-        locals: {data:request.body}
-    })
-});
+
+const limpiar =(payload) => {
+    payload = payload.replace('<','')
+    return payload
+}
+
+const detectar = (payload) =>{
+    if(payload.includes('<')){
+        return response.render('error.html',{locals: {error: 'No se permiten caracteres especiales'}})
+    }else{
+        return payload
+    }
+}
+
+
+//app.post('/mostrar', ( request, response )=> {
+  //  return response.render('mostrar.html', {
+    //    locals: {data: {
+      //      input1: limpiar(request.body.input1),
+        //    input2: limpiar(request.body.input2),
+          //  input3: limpiar(request.body.input3),
+            //input4: limpiar(request.body.input4),
+       // }}
+   // })
+//});
+//app.post('/mostrar', ( request, response )=> {
+    //return response.render('mostrar.html', {
+       // locals: {data:request.body}
+   // })
+//});
