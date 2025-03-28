@@ -32,17 +32,41 @@ app.post('/showrequestpost', ( request, response )=> {
     console.log(request.body)
     return response.send('Mira la consola loquilla')
 });
-app.post('/mostrar', ( request, response )=> {
-    return response.render('mostrar.html', {
-        locals: {data: {
-            input1: detectar(request.body.input1),
-            input2: detectar(request.body.input2),
-            input3: detectar(request.body.input3),
-            input4: detectar(request.body.input4),
-        }}
-    })
-});
 
+app.post('/mostrar', ( request, response )=> {
+    var continuar = false
+    if (detectar(request.body.input1)){
+        continuar = true
+    }
+    if (detectar(request.body.input2)){
+        continuar = true
+    } 
+    if (detectar(request.body.input3)){
+        continuar = true
+    }
+    if (detectar(request.body.input4)){
+        continuar = true
+    }
+    if(!continuar){
+        return response.render('mostrar.html', {
+            locals: {data : {
+                input1: request.body.input1,
+                input2: request.body.input2, 
+                input3: request.body.input3,
+                input4: request.body.input4,
+            }}})
+    }else{
+        return response.render('error.html',
+            {
+                locals: {
+                    data : {
+                        error: 'Se detecto una operacion insegura'
+                    }
+                }
+            })
+    }
+    
+})
 const limpiar =(payload) => {
     payload = payload.replace('<','')
     return payload
@@ -50,9 +74,9 @@ const limpiar =(payload) => {
 
 const detectar = (payload) =>{
     if(payload.includes('<')){
-        return response.render('error.html',{locals: {error: 'No se permiten caracteres especiales'}})
+        return true
     }else{
-        return payload
+        return false
     }
 }
 
