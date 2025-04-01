@@ -1,10 +1,14 @@
 
-const express = require( 'express');
+import express from 'express';
+import ollama from 'ollama';
+import bodyParser from 'body-parser';
+import es6Renderer from 'express-es6-template-engine';
+
 const app = express()
-const bodyParser = require('body-parser');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-es6Renderer = require('express-es6-template-engine')
+
 app.engine('html', es6Renderer);
 app.set('views', 'views');
 app.set('view engine', 'html');
@@ -67,6 +71,27 @@ app.post('/mostrar', ( request, response )=> {
     }
     
 })
+app.post('/mostrarIA', ( request, response )=> {
+    if(detectaIA(JSON.stringify(request.body))){
+        return response.render('error.html',
+            {
+                locals: {
+                    data : {
+                        error: 'Segurito detectó una operacion insegura'
+                    }
+                }
+            })
+    }else{
+        return response.render('mostrar.html', {
+            locals: {data : {
+                input1: request.body.input1,
+                input2: request.body.input2, 
+                input3: request.body.input3,
+                input4: request.body.input4,
+            }}})
+    }
+        
+})
 const limpiar =(payload) => {
     payload = payload.replace('<','')
     return payload
@@ -80,6 +105,19 @@ const detectar = (payload) =>{
     }
 }
 
+const detectaIA = async (payload) => {
+    try {
+        console.log(ollama);
+        const response = await ollama.generate({
+            model: 'segurito',
+            prompt: payload,
+        });
+        return eval(response.response);
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};
 
 //app.post('/mostrar', ( request, response )=> {
   //  return response.render('mostrar.html', {
