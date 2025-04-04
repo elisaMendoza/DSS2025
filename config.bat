@@ -1,4 +1,4 @@
-
+@echo off
 echo Installing npm dependencies...
 call npm install
 
@@ -7,3 +7,6 @@ call npm install nodemon -g
 
 echo Creating Ollama model 'segurito'...
 call ollama create segurito -f Modelfile
+
+echo Installing npm dependencies...
+call npm install sanitizer
