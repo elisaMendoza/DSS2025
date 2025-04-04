@@ -1,0 +1,9 @@
+
+echo Installing npm dependencies...
+call npm install
+
+echo Installing nodemon globally...
+call npm install nodemon -g
+
+echo Creating Ollama model 'segurito'...
+call ollama create segurito -f Modelfile

@@ -1,8 +1,9 @@
 
-import express from 'express';
+import express, { request, response } from 'express';
 import ollama from 'ollama';
 import bodyParser from 'body-parser';
 import es6Renderer from 'express-es6-template-engine';
+import { detectaIA, detectar, limpiar, sanitizerEscape} from './utils/functions.js'
 
 const app = express()
 
@@ -71,8 +72,9 @@ app.post('/mostrar', ( request, response )=> {
     }
     
 })
-app.post('/mostrarIA', ( request, response )=> {
-    if(detectaIA(JSON.stringify(request.body))){
+app.post('/mostrarIA', async ( request, response )=> {
+    const evalua = await detectaIA((JSON.stringify(request.body)))
+    if(evalua){
         return response.render('error.html',
             {
                 locals: {
@@ -91,33 +93,11 @@ app.post('/mostrarIA', ( request, response )=> {
             }}})
     }
         
-})
-const limpiar =(payload) => {
-    payload = payload.replace('<','')
-    return payload
-}
-
-const detectar = (payload) =>{
-    if(payload.includes('<')){
-        return true
-    }else{
-        return false
-    }
-}
-
-const detectaIA = async (payload) => {
-    try {
-        console.log(ollama);
-        const response = await ollama.generate({
-            model: 'segurito',
-            prompt: payload,
-        });
-        return eval(response.response);
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-};
+});
+app.post('/sanitizerEscape', (request, response) => {
+    const input5 = sanitizerEscape(request.body.input5);
+    return response.render('mostrarSanitizerEscape.html', {locals: {input5}} );
+});
 
 //app.post('/mostrar', ( request, response )=> {
   //  return response.render('mostrar.html', {

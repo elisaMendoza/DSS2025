@@ -14,7 +14,7 @@
 </script>
 <body>
     <p>Hola Bella!</p>
-    <form action="/mostrar" method="post">
+    <form action="/mostrarIA" method="post">
         <label for="input1">Input 1:</label>
         <input type="text" id="input1" name="input1" required>
         <br>
@@ -26,6 +26,13 @@
         <br>
         <label for="input4">Input 4:</label>
         <input type="text" id="input4" name="input4" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <form action="/sanitizerEscape" method="post">
+        <label for="input1">Input 5:</label>
+        <input type="text" id="input5" name="input5" required>
         <br>
         <button type="submit">Submit</button>
     </form>
