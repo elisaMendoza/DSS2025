@@ -3,7 +3,13 @@ import express, { request, response } from 'express';
 import ollama from 'ollama';
 import bodyParser from 'body-parser';
 import es6Renderer from 'express-es6-template-engine';
-import { detectaIA, detectar, limpiar, sanitizerEscape} from './utils/functions.js'
+import { 
+    detectaIA,
+    detectar,
+    limpiar,
+    sanitizerEscape,
+    sanitizerNormalizeRCData,
+ } from './utils/functions.js';
 
 const app = express()
 
@@ -97,6 +103,11 @@ app.post('/mostrarIA', async ( request, response )=> {
 app.post('/sanitizerEscape', (request, response) => {
     const input5 = sanitizerEscape(request.body.input5);
     return response.render('mostrarSanitizerEscape.html', {locals: {input5}} );
+});
+
+app.post('/sanitizerNormalizeRCData', (request, response) => {
+    const input6 = sanitizerNormalizeRCData(request.body.input6);
+    return response.render('mostrarRCData.html', {locals: {input6}} );
 });
 
 //app.post('/mostrar', ( request, response )=> {

@@ -31,3 +31,9 @@ export const sanitizerEscape = (payload) => {
     payload = sanitizer.escape(payload);
     return payload;
 }
+
+export const sanitizerNormalizeRCData = (payload) => {
+    payload = sanitizer.normalizeRCData(payload);
+    console.log(payload);
+    return payload;
+}
